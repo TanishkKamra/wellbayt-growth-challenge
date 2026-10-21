@@ -209,6 +209,8 @@
   const themeToggle = document.getElementById('theme-toggle');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let fallbackTimer = null;
+  let activeViewTransition = null;
 
   function initTheme() {
     const savedTheme = localStorage.getItem('wellbayt-theme');
@@ -224,17 +226,75 @@
     localStorage.setItem('wellbayt-theme', theme);
     if (themeToggle) {
       themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-      themeToggle.innerHTML = theme === 'dark'
-        ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`
-        : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+      themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
     }
   }
 
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+
+    // 1. Reduced motion: Instant switch, no transition
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTheme(next);
+      return;
+    }
+
+    // 2. View Transitions API: Circular reveal expanding from toggle center
+    if (typeof document.startViewTransition === 'function') {
+      const rect = themeToggle ? themeToggle.getBoundingClientRect() : {
+        left: window.innerWidth - 44,
+        top: 20,
+        width: 36,
+        height: 36
+      };
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const endRadius = Math.ceil(Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      )) + 2;
+
+      document.documentElement.style.setProperty('--toggle-x', `${x}px`);
+      document.documentElement.style.setProperty('--toggle-y', `${y}px`);
+      document.documentElement.style.setProperty('--toggle-r', `${endRadius}px`);
+
+      try {
+        const transition = document.startViewTransition(() => {
+          setTheme(next);
+        });
+        activeViewTransition = transition;
+
+        transition.finished.finally(() => {
+          if (activeViewTransition === transition) {
+            document.documentElement.style.removeProperty('--toggle-x');
+            document.documentElement.style.removeProperty('--toggle-y');
+            document.documentElement.style.removeProperty('--toggle-r');
+            activeViewTransition = null;
+          }
+        });
+      } catch (err) {
+        activeViewTransition = null;
+        setTheme(next);
+      }
+      return;
+    }
+
+    // 3. Fallback for browsers without View Transitions: Coordinated class transition
+    if (fallbackTimer) {
+      clearTimeout(fallbackTimer);
+      fallbackTimer = null;
+    }
+    document.documentElement.classList.add('theme-transitioning');
+    setTheme(next);
+    fallbackTimer = setTimeout(() => {
+      document.documentElement.classList.remove('theme-transitioning');
+      fallbackTimer = null;
+    }, 420);
+  }
+
   if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      setTheme(current === 'dark' ? 'light' : 'dark');
-    });
+    themeToggle.addEventListener('click', toggleTheme);
   }
 
   prefersDark.addEventListener('change', (e) => {

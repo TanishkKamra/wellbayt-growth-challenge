@@ -113,7 +113,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: background-color var(--transition-normal), color var(--transition-normal);
   position: relative;
 }
 
@@ -243,7 +242,6 @@ code {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-subtle);
   z-index: 100;
-  transition: background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
 [data-theme="dark"] .site-header {
@@ -383,6 +381,81 @@ code {
   justify-content: center;
   transition: all var(--transition-fast);
   position: relative;
+}
+
+/* Theme Toggle Button & Smooth Icon Swap */
+.theme-toggle {
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+[data-theme="light"] .icon-sun,
+:root:not([data-theme="dark"]) .icon-sun {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
+}
+
+[data-theme="light"] .icon-moon,
+:root:not([data-theme="dark"]) .icon-moon {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg) scale(1);
+}
+
+[data-theme="dark"] .icon-sun {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg) scale(1);
+}
+
+[data-theme="dark"] .icon-moon {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(-90deg) scale(0.5);
+}
+
+/* View Transitions API — Circular Reveal */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+  animation: circleReveal 550ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes circleReveal {
+  from {
+    clip-path: circle(0px at var(--toggle-x, 50%) var(--toggle-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--toggle-r, 150vmax) at var(--toggle-x, 50%) var(--toggle-y, 50%));
+  }
+}
+
+/* Fallback: Synchronized Shared Transition for Browsers without View Transitions */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 400ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 400ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 400ms cubic-bezier(0.4, 0, 0.2, 1),
+              fill 400ms cubic-bezier(0.4, 0, 0.2, 1),
+              stroke 400ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .btn-icon:hover {
@@ -1551,5 +1624,13 @@ button:focus-visible, a:focus-visible, [tabindex="0"]:focus-visible {
   .typing-cursor {
     animation: none !important;
     opacity: 0 !important;
+  }
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+  .theme-icon {
+    transition: none !important;
   }
 }
