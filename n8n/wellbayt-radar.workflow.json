@@ -1,0 +1,502 @@
+{
+  "name": "Wellbayt Opportunity Radar & Reply Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Before you run this\n\n\u2022 **Safe to try:** Optional: add your free Gemini key to see AI openers. Stays on your computer as an environment variable, never stored or tracked.\n\u2022 **No key? No problem:** Leave it out and just click 'Test workflow'. The pipeline uses clear template openers to show how it works.\n\u2022 **What is sent where:** Only contacts Google News (public headlines) and Gemini API (headline text). Nothing is sent to anyone else.",
+        "height": 170,
+        "width": 780,
+        "color": 5
+      },
+      "id": "sticky-trust-notice",
+      "name": "Sticky Note - Before You Run",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        180,
+        -280
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 1. Detect Stage\nManual and weekly schedule triggers. Queries 5 UAE-targeted signal feeds via Google News RSS.",
+        "height": 150,
+        "width": 780,
+        "color": 6
+      },
+      "id": "sticky-detect",
+      "name": "Sticky Note - Detect",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        180,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2. Clean & Score Stage\nFilters noise, verifies UAE geography, extracts entity names via regex, and scores urgency (weight x freshness + multi-signal bonus).",
+        "height": 150,
+        "width": 360,
+        "color": 5
+      },
+      "id": "sticky-clean-score",
+      "name": "Sticky Note - Clean & Score",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 3. Prepare Stage\nGenerates UAE-appropriate openers (<= 45 words) using Google Gemini. Automatically falls back to template openers if Gemini is unset.",
+        "height": 150,
+        "width": 560,
+        "color": 4
+      },
+      "id": "sticky-prepare",
+      "name": "Sticky Note - Prepare",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 4. CRM Stage\nAlways-on export to CSV. Optional Google Sheets node (disabled by default) requires no Google account.",
+        "height": 150,
+        "width": 440,
+        "color": 3
+      },
+      "id": "sticky-crm",
+      "name": "Sticky Note - CRM",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 5. Reply Management Stage\nWebhook receives prospect replies. Classifies intent (interested, not_now, etc.) and drafts next steps using Gemini 2.5 Flash with automatic rule-based fallback.",
+        "height": 160,
+        "width": 1100,
+        "color": 2
+      },
+      "id": "sticky-reply",
+      "name": "Sticky Note - Reply",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        180,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Operational Safety\nDrafts only. A person reviews every message. No real prospects contacted. The workflow never sends anything automatically.",
+        "height": 160,
+        "width": 640,
+        "color": 7
+      },
+      "id": "sticky-guardrails",
+      "name": "Sticky Note - Guardrails",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        480
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "node-manual-trigger",
+      "name": "Run Now (Manual Trigger)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 6,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-trigger",
+      "name": "Weekly Schedule (Mon 06:00 UTC)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        220,
+        100
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "return [\n  {\n    json: {\n      signal: \"new_hr_leader\",\n      weight: 5,\n      query: '(\"appointed\" OR \"joins as\" OR \"named\") (\"Head of HR\" OR \"Chief People Officer\" OR \"HR Director\" OR \"Head of People\") (UAE OR Dubai OR \"Abu Dhabi\")',\n      why: \"New HR leaders set priorities and budgets in their first 90 days.\"\n    }\n  },\n  {\n    json: {\n      signal: \"expansion\",\n      weight: 4,\n      query: '(\"opens\" OR \"launches\" OR \"inaugurates\") (\"regional headquarters\" OR \"new office\" OR \"Dubai hub\" OR \"new campus\") (UAE OR Dubai OR \"Abu Dhabi\")',\n      why: \"A new or growing office means new hires, onboarding and culture-building needs.\"\n    }\n  },\n  {\n    json: {\n      signal: \"workplace_award\",\n      weight: 3,\n      query: '(\"Great Place to Work\" OR \"Best Workplaces\" OR \"Top Employer\") (UAE OR Dubai OR \"Abu Dhabi\" OR \"Middle East\")',\n      why: \"Employers proud of culture are buyers of programmes that reinforce it.\"\n    }\n  },\n  {\n    json: {\n      signal: \"wellbeing_push\",\n      weight: 3,\n      query: '(\"employee wellbeing\" OR \"mental health\" OR \"wellness programme\") (launches OR introduces OR partners) (UAE OR Dubai OR \"Abu Dhabi\") company',\n      why: \"A public wellbeing commitment signals budget and executive backing.\"\n    }\n  },\n  {\n    json: {\n      signal: \"hiring_surge\",\n      weight: 3,\n      query: '(\"hiring\" OR \"to recruit\" OR \"create jobs\") (\"1,000\" OR \"500\" OR \"2,000\" OR \"thousands\") (UAE OR Dubai OR \"Abu Dhabi\" OR \"Saudi\")',\n      why: \"Large hiring waves strain retention and onboarding, which wellbeing programmes support.\"\n    }\n  }\n];"
+      },
+      "id": "node-define-signals",
+      "name": "Define Signal Queries & Weights",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://news.google.com/rss/search?q={{ encodeURIComponent($json.query + ' when:45d') }}&hl=en-AE&gl=AE&ceid=AE:en",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "node-fetch-rss",
+      "name": "Fetch Google News RSS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        200
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const items = $input.all();\nconst queryDefs = $('Define Signal Queries & Weights').all();\nconst days = 45;\nconst top = 12;\n\nconst NOISE = /\\b(review|school|nursery|university|hospital|clinic|real estate agent|holiday|visa|tourism)\\b/i;\nconst GEO = /\\b(UAE|Dubai|Abu Dhabi|Sharjah|Emirates|Emirati|Gulf|GCC|Middle East|MENA)\\b/i;\nconst GENERIC = /\\b(people|culture|human resources|hr|great place|expo|forum|summit|awards?|ministry)\\b/i;\nconst BAD = new Set([\n  \"Ghana\", \"Sharjah\", \"Apple\", \"The\", \"A\", \"An\", \"Dubai\", \"UAE\", \"Abu Dhabi\",\n  \"How\", \"Why\", \"What\", \"New\", \"Top\", \"Best\", \"DIFC\", \"Dubai CommerCity\",\n  \"CommerCity\", \"ADGM\", \"DMCC\", \"Gulf\", \"Middle East\", \"MENA\", \"GCC\"\n]);\n\nconst LEAD = /^([A-Z][\\w&.\\-' ]{1,40}?)\\s+(?:opens|launches|inaugurates|unveils|announces|signs|expands|wins|named|ranked|recognised|certified|partners|appoints|to hire|to recruit|plans|introduces)\\b/;\nconst AT = /\\b(?:at|joins)\\s+([A-Z][\\w&.\\-' ]{1,40}?)(?:\\s+[-\\u2013\\u2014|]|$|\\s+as\\b|,)/g;\n\nconst SIGNAL_TEMPLATES = {\n  \"new_hr_leader\": [\n    \"Congratulations on the new HR leadership appointment at {company}. The first 90 days are when wellbeing priorities get set. Would a 15-minute chat on what peer UAE employers do for movement programmes be useful?\",\n    \"With new HR leadership taking the helm at {company}, shaping team culture is top of mind. We design human-led wellbeing sessions across the UAE. Could I share two practical ideas for your team?\",\n    \"Stepping into an HR leadership role at {company} sets the tone for workforce wellbeing. We help UAE organisations launch high-participation activations. Worth a short intro call to compare notes?\",\n    \"Welcome to the new People leadership team at {company}. Early tenure is an ideal window to introduce fresh health initiatives. Open to a brief 15-minute introductory conversation this week?\"\n  ],\n  \"expansion\": [\n    \"Saw {company}'s expansion in the UAE. New offices usually need an early culture and wellbeing moment for the team settling in. We run onsite activations for exactly that stage. Open to a quick intro call?\",\n    \"Congratulations on {company}'s new UAE office milestone. Welcoming new hires to a fresh workspace is the ideal moment to establish movement habits. Could I share two ideas that fit your team?\",\n    \"Establishing a new UAE base for {company} creates an exciting culture-building window for incoming staff. We deliver human-led onsite team activations. Would a brief 15-minute conversation be timely?\",\n    \"Following the launch of {company}'s new regional office, onboarding a growing workforce demands sustained team engagement. We organise turnkey corporate movement challenges. Worth a short chat to explore fit?\"\n  ],\n  \"workplace_award\": [\n    \"Congratulations to {company} on the workplace recognition. Teams that earn it often want an engaging wellbeing programme to keep the momentum going. Could I share two ideas that fit your culture?\",\n    \"Earning top employer recognition highlights {company}'s clear culture commitment. We help UAE organisations sustain employee energy with human-led activations. Would a brief 15-minute intro call be welcome?\",\n    \"Celebrating {company}'s recent workplace culture award is a great milestone. Maintaining high engagement takes deliberate wellbeing moments. Open to a quick conversation on our onsite sessions?\",\n    \"Recognised workplace cultures like {company}'s set high standards for employee experience. We build movement and wellness programmes that staff genuinely join. Worth a short intro chat?\"\n  ],\n  \"wellbeing_push\": [\n    \"I noticed {company}'s recent wellbeing announcement. Many HR teams struggle to turn commitments into sessions staff actually attend. We design onsite and movement challenges that lift participation. Worth a short conversation?\",\n    \"Committing publicly to employee wellbeing at {company} sets a great standard. Turning strategy into high participation is where we assist UAE employers. Could I share two ideas that fit your roadmap?\",\n    \"Seeing {company}'s active wellbeing initiative is fantastic for the local workforce. We deliver human-led activations and challenges with zero operational friction. Would a brief 15-minute call be timely?\",\n    \"With employee health now a priority at {company}, keeping staff actively engaged is the next step. We design tailored onsite workshops across the UAE. Open to a quick intro chat?\"\n  ],\n  \"hiring_surge\": [\n    \"With {company} scaling the team so quickly, keeping new and existing staff engaged becomes the key HR challenge. We help with onsite activations and challenges that build belonging fast. Open to a brief intro?\",\n    \"Rapid headcount growth at {company} puts team cohesion and onboarding to the test. We run turnkey movement challenges that connect colleagues quickly. Could I share two practical ideas?\",\n    \"Scaling up hiring at {company} brings vital energy but also onboarding strain. We deliver human-led wellbeing sessions that help new joiners integrate comfortably. Would a brief 15-minute call be helpful?\",\n    \"Welcoming large cohorts of new staff to {company} requires shared culture moments from day one. We design onsite corporate activations across the UAE. Worth a short conversation?\"\n  ]\n};\n\nfunction cleanDisplayName(name) {\n  let s = name.replace(/\\s+(?:Dubai office|Abu Dhabi office|regional headquarters|headquarters|HQ|Dubai hub|regional hub|office|offices|hub|hubs|Group|Middle East)\\b/gi, \"\");\n  s = s.replace(/^[ .,'\\-]+|[ .,'\\-]+$/g, \"\").trim();\n  return s.length >= 2 ? s : name;\n}\n\nfunction normalizeKey(name) {\n  let s = name.toLowerCase();\n  s = s.replace(/\\b(office|offices|hub|hubs|group|headquarters|hq|regional|campus|branch|branches|international|platform|platforms|middle east|uae|dubai|abu dhabi)\\b/gi, \"\");\n  s = s.replace(/^[ .,'\\-]+|[ .,'\\-]+$/g, \"\").trim();\n  s = s.replace(/\\s+/g, \" \");\n  return s;\n}\n\nfunction companyOf(title, hrRole = false) {\n  title = title.replace(/\\s+[-\\u2013\\u2014|]\\s+[^-\\u2013\\u2014|]+$/, \"\").trim();\n  let cands = [];\n  if (hrRole) {\n    const matches = [...title.matchAll(AT)];\n    cands = matches.map(m => m[1]).reverse();\n  } else {\n    const leadMatch = title.match(LEAD);\n    if (leadMatch) cands.push(leadMatch[1]);\n    const matches = [...title.matchAll(AT)];\n    for (const m of matches) {\n      cands.push(m[1]);\n    }\n  }\n  for (let c of cands) {\n    c = c.replace(/^[ .,']+|[ .,']+$/g, \"\").trim();\n    if (c && !BAD.has(c) && c.split(/\\s+/).length <= 5 && !GENERIC.test(c)) {\n      return c;\n    }\n  }\n  return null;\n}\n\nfunction openerFor(company, signal) {\n  const variants = SIGNAL_TEMPLATES[signal] || SIGNAL_TEMPLATES[\"expansion\"];\n  let hash = 0;\n  for (let i = 0; i < company.length; i++) {\n    hash = (hash + company.charCodeAt(i)) % variants.length;\n  }\n  return variants[hash].replace(/\\{company\\}/g, company);\n}\n\nfunction parseXmlItems(xmlText) {\n  const list = [];\n  if (!xmlText || typeof xmlText !== 'string') return list;\n  const itemRegex = /<item>([\\s\\S]*?)<\\/item>/gi;\n  let match;\n  while ((match = itemRegex.exec(xmlText)) !== null) {\n    const block = match[1];\n    const tm = block.match(/<title>([\\s\\S]*?)<\\/title>/i);\n    const lm = block.match(/<link>([\\s\\S]*?)<\\/link>/i);\n    const pm = block.match(/<pubDate>([\\s\\S]*?)<\\/pubDate>/i);\n    let title = tm ? tm[1].replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/gi, \"$1\").trim() : \"\";\n    let link = lm ? lm[1].replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/gi, \"$1\").trim() : \"\";\n    let pubDate = pm ? pm[1].trim() : \"\";\n    title = title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '\"').replace(/&#39;/g, \"'\");\n    if (title) list.push({ title, link, pubDate });\n  }\n  return list;\n}\n\nconst found = {};\nconst now = new Date();\nconst badLower = new Set([...BAD].map(b => b.toLowerCase()));\n\nfor (let idx = 0; idx < items.length; idx++) {\n  const it = items[idx];\n  const qDef = (queryDefs[idx] && queryDefs[idx].json) ? queryDefs[idx].json : {};\n  const signalName = qDef.signal || it.json.signal;\n  const weight = qDef.weight || 3;\n  const why = qDef.why || \"\";\n  const xmlData = it.json.data || it.data || \"\";\n\n  const parsedItems = parseXmlItems(xmlData);\n\n  for (const item of parsedItems) {\n    const title = item.title;\n    if (NOISE.test(title) || !GEO.test(title)) continue;\n    const company = companyOf(title, signalName === \"new_hr_leader\");\n    if (!company) continue;\n\n    const disp = cleanDisplayName(company);\n    const norm = normalizeKey(disp);\n    if (!norm || badLower.has(norm) || BAD.has(company) || BAD.has(disp)) continue;\n\n    const pubTime = item.pubDate ? new Date(item.pubDate).getTime() : now.getTime();\n    const age = Math.max(Math.floor((now.getTime() - pubTime) / (1000 * 60 * 60 * 24)), 0);\n    const score = weight * (1.0 - Math.min(age, days) / (days * 1.5));\n\n    if (!found[norm]) {\n      found[norm] = {\n        company: disp,\n        score: 0.0,\n        signals: new Set(),\n        evidence: []\n      };\n    } else {\n      if (disp.length < found[norm].company.length) {\n        found[norm].company = disp;\n      }\n    }\n    found[norm].score += score;\n    found[norm].signals.add(signalName);\n    found[norm].evidence.push({\n      age,\n      title,\n      link: item.link,\n      signal: signalName,\n      why\n    });\n  }\n}\n\nconst sortedLeads = Object.values(found).sort((a, b) => {\n  const scoreA = a.score + 1.5 * (a.signals.size - 1);\n  const scoreB = b.score + 1.5 * (b.signals.size - 1);\n  return scoreB - scoreA;\n}).slice(0, top);\n\nconst output = [];\nfor (const l of sortedLeads) {\n  l.evidence.sort((a, b) => a.age - b.age);\n  const best = l.evidence[0];\n  const primarySignal = best.signal;\n  const signalsList = Array.from(l.signals).sort();\n  const templateOpener = openerFor(l.company, primarySignal);\n\n  output.push({\n    json: {\n      company: l.company,\n      signal: primarySignal,\n      signals: signalsList.join(', '),\n      score: parseFloat(l.score.toFixed(2)),\n      age_days: best.age,\n      headline: best.title,\n      evidence_link: best.link,\n      why: best.why,\n      target_roles: \"Head of HR / People & Culture / Employee Experience\",\n      template_opener: templateOpener,\n      opener: templateOpener,\n      opener_source: \"template\",\n      status: \"New\",\n      found_at: now.toISOString()\n    }\n  });\n}\n\nreturn output;"
+      },
+      "id": "node-clean-score",
+      "name": "Clean, Extract & Score Leads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1060,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={{ $env.GEMINI_API_KEY || '' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n  JSON.stringify({\n    contents: [\n      {\n        parts: [\n          {\n            text: \"You are writing first-touch outbound executive outreach for Wellbayt, a corporate wellbeing company in the UAE.\\nWrite a personalised opening message for a UAE HR or executive decision-maker referencing only this verified news event:\\nCompany: \" + $json.company + \"\\nHeadline: \" + $json.headline + \"\\nSignal: \" + $json.signal + \"\\n\\nRequirements:\\n1. Word count: strictly between 22 and 38 words (under 40 words total).\\n2. Factual accuracy: cite only the verified event in the headline. Absolutely no invented facts, names, dates, or assumptions.\\n3. Sentence variety and phrasing:\\n   - Mention the company name exactly once.\\n   - BANNED opening words: NEVER start with 'Following', 'Noticing', 'With', 'As', or 'In light of'.\\n   - Vary opening words across leads: open with a congratulation on the milestone, a direct comment on facility scale, or link the expansion to an onboarding culture need.\\n   - Banned phrases: never use 'Noticing...', 'I noticed...', or 'how do you...'.\\n4. Varied Call to Action:\\n   - Vary the closing ask across leads (e.g. asking for a 15-minute intro call, offering to share two practical ideas, proposing a quick chat about onsite activations, or exploring a team challenge).\\n5. Tone & Style: professional, understated UAE business English (British spelling, e.g. programmes). Zero exclamation marks, zero em dashes, zero flattery.\\n6. Format: return ONLY the single plain text message. No quotation marks, no preamble, no markdown.\"\n          }\n        ]\n      }\n    ],\n    generationConfig: {\n      maxOutputTokens: 200,\n      temperature: 0.2\n    }\n  })\n}}",
+        "options": {
+          "timeout": 15000,
+          "retryOnFail": true,
+          "maxTries": 3,
+          "waitBetweenTries": 3000,
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 4200
+            }
+          }
+        }
+      },
+      "id": "node-ai-opener",
+      "name": "Generate AI Opener (Gemini)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1440,
+        200
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const leads = $('Clean, Extract & Score Leads').all();\nconst items = $input.all();\nconst results = [];\n\nfor (let i = 0; i < leads.length; i++) {\n  const lead = leads[i].json;\n  const aiItem = (items[i] && items[i].json) ? items[i].json : {};\n  \n  let opener = lead.template_opener || lead.opener;\n  let source = \"template\";\n  \n  // Check if AI call succeeded and extract all text parts\n  const candidates = aiItem.candidates || (aiItem.data && aiItem.data.candidates);\n  if (candidates && candidates[0] && candidates[0].content && candidates[0].content.parts) {\n    const rawText = candidates[0].content.parts\n      .map(p => p.text || '')\n      .join('')\n      .trim()\n      .replace(/^[\\\"\\']+|[\\\"\\']+$/g, '');\n    \n    // Sanitize any em/en-dashes and normalize spaces\n    const cleanText = rawText.replace(/[\\u2014\\u2013]/g, ' - ').replace(/\\s+/g, ' ').trim();\n    const words = cleanText ? cleanText.split(/\\s+/).length : 0;\n    \n    // Accept valid AI opener strictly under 40 words\n    if (words >= 15 && words < 40) {\n      opener = cleanText;\n      source = \"ai\";\n    }\n  }\n  \n  results.push({\n    json: {\n      company: lead.company,\n      signal: lead.signal,\n      signals: lead.signals,\n      score: lead.score,\n      age_days: lead.age_days,\n      headline: lead.headline,\n      evidence_link: lead.evidence_link,\n      target_roles: lead.target_roles,\n      why: lead.why,\n      opener: opener,\n      opener_source: source,\n      status: \"New\",\n      found_at: lead.found_at || new Date().toISOString()\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "node-process-opener",
+      "name": "Process Opener & Apply Fallback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1740,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "csv",
+        "options": {
+          "fileName": "wellbayt-radar-leads.csv"
+        }
+      },
+      "id": "node-convert-csv",
+      "name": "Convert to File (CSV)",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        2040,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetName": "Wellbayt Leads",
+        "options": {}
+      },
+      "id": "node-google-sheets",
+      "name": "Google Sheets CRM (Optional)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2040,
+        280
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "wellbayt-reply",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-webhook-reply",
+      "name": "Webhook (POST /wellbayt-reply)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        680
+      ],
+      "webhookId": "wellbayt-reply"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  let body = {};\n  try {\n    const hookNode = $('Webhook (POST /wellbayt-reply)').first();\n    body = (hookNode && hookNode.json && hookNode.json.body) ? hookNode.json.body : (hookNode ? hookNode.json : {});\n  } catch (e) {\n    body = item.json && item.json.body ? item.json.body : item.json || {};\n  }\n\n  const company = body.company || \"Target Company\";\n  const replyText = (body.reply_text || \"\").trim();\n  const lower = replyText.toLowerCase();\n\n  let classification = \"question\";\n  let crm_status = \"Active Conversation - Information Requested\";\n  let next_step = \"Provide concise answer and propose 10-minute briefing call.\";\n  let needs_human_check = false;\n  let draft_reply = `Thank you for reaching out. Wellbayt provides human-led onsite and virtual wellbeing sessions, corporate activations, an employer dashboard, and our employee app across the UAE. Would a brief 10-minute introductory call be helpful to explore what fits your team?`;\n  let source = \"rule_based\";\n\n  // Check if AI classification succeeded\n  const candidates = item.json && (item.json.candidates || (item.json.data && item.json.data.candidates));\n  if (candidates && candidates[0] && candidates[0].content && candidates[0].content.parts) {\n    try {\n      const raw = candidates[0].content.parts\n        .map(p => p.text || '')\n        .join('')\n        .trim()\n        .replace(/^```json\\s*|^```\\s*|```$/g, '');\n      const parsed = JSON.parse(raw);\n      if (parsed.classification && [\"interested\", \"not_now\", \"not_interested\", \"out_of_office\", \"question\"].includes(parsed.classification)) {\n        classification = parsed.classification;\n        crm_status = parsed.crm_status || crm_status;\n        next_step = parsed.next_step || next_step;\n        needs_human_check = typeof parsed.needs_human_check === 'boolean' ? parsed.needs_human_check : false;\n        if (parsed.draft_reply && parsed.draft_reply.length > 10) {\n          draft_reply = parsed.draft_reply.replace(/[\\u2014\\u2013]/g, ' - ').replace(/\\s+/g, ' ').trim();\n        }\n        source = \"ai\";\n      }\n    } catch (err) {}\n  }\n\n  // Rule-based fallback if AI failed\n  if (source === \"rule_based\") {\n    if (/\\b(price|pricing|cost|rate|rates|budget|quote|counselling|therapy|gym|scope)\\b/i.test(lower)) {\n      needs_human_check = true;\n    }\n\n    if (/\\b(interested|call|talk|sounds good|available|let's connect|schedule|yes|meet)\\b/i.test(lower)) {\n      classification = \"interested\";\n      crm_status = \"Qualified - Meeting Requested\";\n      next_step = \"Share meeting link and agree on preferred 15-minute slot.\";\n      draft_reply = `Thank you for the reply. I would be glad to share two practical ideas for onsite movement and wellbeing activations that fit ${company}. Would Tuesday or Thursday afternoon suit you for a brief 15-minute intro call?`;\n    } else if (/\\b(not now|later|next quarter|busy|next year|revisit|reach out in|q[1-4])\\b/i.test(lower)) {\n      classification = \"not_now\";\n      crm_status = \"Nurture - Follow up next quarter\";\n      next_step = \"Set CRM reminder for a 60-day check-in.\";\n      draft_reply = `Completely understand. Thank you for the note. I will make a note to follow up in a couple of months when your team's planning cycle reopens. Wishing you all the best in the meantime.`;\n    } else if (/\\b(not interested|unsubscribe|remove|stop|no thanks|never)\\b/i.test(lower)) {\n      classification = \"not_interested\";\n      crm_status = \"Disqualified - Closed\";\n      next_step = \"Mark contact as Do Not Contact in CRM.\";\n      draft_reply = `Thank you for letting me know. I have updated our records so you will not hear from us again. All the best to you and the team at ${company}.`;\n    } else if (/\\b(out of the office|away from my desk|annual leave|maternity|paternity|auto-reply)\\b/i.test(lower)) {\n      classification = \"out_of_office\";\n      crm_status = \"Out of Office - Pending Return\";\n      next_step = \"Wait for prospect return date before following up.\";\n      draft_reply = `[Auto-reply recorded: Follow-up paused until contact returns to office]`;\n    } else {\n      if (needs_human_check) {\n        draft_reply = `Thank you for reaching out. Wellbayt provides human-led onsite and virtual activations, an employer dashboard, and our wellbeing app. Regarding the specific scope and pricing details, I will confirm with our team and come back to you shortly.`;\n      }\n    }\n  }\n\n  results.push({\n    json: {\n      company: company,\n      reply_text: replyText,\n      classification: classification,\n      crm_status: crm_status,\n      next_step: next_step,\n      needs_human_check: needs_human_check,\n      draft_reply: draft_reply,\n      classifier_source: source,\n      reviewed_by_human: false,\n      processed_at: new Date().toISOString()\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "node-classify-reply",
+      "name": "Classify Reply & Draft Next Step",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        820,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "node-respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={{ $env.GEMINI_API_KEY || '' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n  JSON.stringify({\n    contents: [\n      {\n        parts: [\n          {\n            text: 'You are the inbound reply triage assistant for Wellbayt, a corporate wellbeing company in the UAE.\\nThe draft reply you create will be reviewed and sent by a human.\\n\\nFACT SHEET ABOUT WELLBAYT (wellbayt.com):\\n- Wellbayt is a corporate wellbeing company in the UAE.\\n- What Wellbayt offers: human-led onsite or virtual wellbeing sessions and corporate activations, an employer dashboard for HR leaders, and an employee wellbeing app.\\n- Wellbayt does NOT offer: gym discounts, counselling or therapy, medical services, off-the-shelf brochures, or fixed public price sheets.\\n\\nSTRICT RULES:\\n1. Never mention gym discounts, counselling, therapy, prices, rates, brochures, or attachments.\\n2. Never say anything is attached or enclosed.\\n3. If the prospect asks about price, pricing, scope, or any service not in the fact sheet (e.g. counselling, gym memberships): do NOT quote a price or confirm unlisted services; state politely that you will confirm the details with the team and come back to them.\\n4. Word count: keep draft_reply strictly under 45 words.\\n5. Language: British English (e.g. programme, counselling). Zero exclamation marks, zero em dashes.\\n6. Set needs_human_check to true whenever the prospect asks about price, pricing, scope, or anything outside the fact sheet. Otherwise set it to false.\\n\\nAnalyze this prospect reply from ' + (($json.body && $json.body.company) ? $json.body.company : ($json.company || 'Target Company')) + ':\\n' + (($json.body && $json.body.reply_text) ? $json.body.reply_text : ($json.reply_text || '')) + '\\n\\nClassify intent into exactly ONE category:\\n- interested: wants meeting, call, or expresses positive interest\\n- not_now: busy, timing not right, follow up in a future quarter\\n- not_interested: explicitly declines, unsubscribes, asks not to be contacted\\n- out_of_office: automated out-of-office response\\n- question: asks a specific question about offerings or capabilities\\n\\nReturn ONLY valid JSON (no markdown fences, no backticks, no em dashes):\\n{\\n  \\\"classification\\\": \\\"interested\\\" | \\\"not_now\\\" | \\\"not_interested\\\" | \\\"out_of_office\\\" | \\\"question\\\",\\n  \\\"crm_status\\\": \\\"string\\\",\\n  \\\"next_step\\\": \\\"string\\\",\\n  \\\"needs_human_check\\\": true | false,\\n  \\\"draft_reply\\\": \\\"polite, concise reply under 45 words in British English without em dashes\\\"\\n}'\n          }\n        ]\n      }\n    ],\n    generationConfig: {\n      maxOutputTokens: 300,\n      temperature: 0.1\n    }\n  })\n}}",
+        "options": {
+          "timeout": 20000,
+          "retryOnFail": true,
+          "maxTries": 2,
+          "waitBetweenTries": 2000
+        }
+      },
+      "id": "node-ai-reply",
+      "name": "Classify Reply Intent (Gemini)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        520,
+        680
+      ],
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Run Now (Manual Trigger)": {
+      "main": [
+        [
+          {
+            "node": "Define Signal Queries & Weights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Schedule (Mon 06:00 UTC)": {
+      "main": [
+        [
+          {
+            "node": "Define Signal Queries & Weights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define Signal Queries & Weights": {
+      "main": [
+        [
+          {
+            "node": "Fetch Google News RSS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Google News RSS": {
+      "main": [
+        [
+          {
+            "node": "Clean, Extract & Score Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean, Extract & Score Leads": {
+      "main": [
+        [
+          {
+            "node": "Generate AI Opener (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate AI Opener (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Process Opener & Apply Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Opener & Apply Fallback": {
+      "main": [
+        [
+          {
+            "node": "Convert to File (CSV)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets CRM (Optional)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook (POST /wellbayt-reply)": {
+      "main": [
+        [
+          {
+            "node": "Classify Reply Intent (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Reply & Draft Next Step": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Reply Intent (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Classify Reply & Draft Next Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [],
+  "id": "wellbayt-radar"
+}

@@ -3,30 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Wellbayt AI Growth Challenge — Tanishk Kamra</title>
+  <title>Wellbayt AI Growth Challenge: Tanishk Kamra</title>
   <meta name="description" content="A signal-driven outbound system for Wellbayt in the UAE. Spot buying moments, research accounts, and prepare genuine human-reviewed conversations.">
   
   <!-- Open Graph & Social Metadata -->
-  <meta property="og:title" content="Wellbayt AI Growth Challenge — Tanishk Kamra">
+  <meta property="og:title" content="Wellbayt AI Growth Challenge: Tanishk Kamra">
   <meta property="og:description" content="Reach companies at the moment they have a reason to care. A signal-driven outbound system for Wellbayt in the UAE.">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Wellbayt AI Growth Challenge — Tanishk Kamra">
+  <meta property="og:url" content="https://tanishkkamra.github.io/wellbayt-growth-challenge/">
+  <meta property="og:image" content="https://tanishkkamra.github.io/wellbayt-growth-challenge/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Wellbayt AI Growth Challenge: Opportunity Radar and 30-Day Plan by Tanishk Kamra">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Wellbayt AI Growth Challenge: Tanishk Kamra">
   <meta name="twitter:description" content="Reach companies at the moment they have a reason to care. A signal-driven outbound system for Wellbayt in the UAE.">
+  <meta name="twitter:image" content="https://tanishkkamra.github.io/wellbayt-growth-challenge/og-image.png">
 
   <!-- SVG Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b5a50'/><text x='16' y='22' fill='%23ffffff' font-family='sans-serif' font-weight='800' font-size='18' text-anchor='middle'>W</text></svg>" type="image/svg+xml">
 
-  <!-- Typography from Google Fonts -->
+  <!-- Typography from Google Fonts (Preloaded & Async) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  </noscript>
   
   <!-- Prevent Theme Flash on Page Load -->
   <script>
     (function () {
       try {
-        var saved = localStorage.getItem('wellbayt-theme');
+        var param = new URLSearchParams(window.location.search).get('theme');
+        var saved = param || localStorage.getItem('wellbayt-theme');
         var dark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
       } catch (e) {}
@@ -49,7 +61,7 @@
   <!-- Header & Sticky Mini-Navigation -->
   <header class="site-header" id="top">
     <div class="container nav-container">
-      <a href="#top" class="brand-link" aria-label="Wellbayt AI Growth Challenge - Tanishk Kamra">
+      <a href="#top" class="brand-link" aria-label="Tanishk Kamra - Wellbayt AI Growth Challenge">
         <span class="brand-badge" aria-hidden="true">W</span>
         <span>Tanishk Kamra</span>
       </a>
@@ -92,7 +104,7 @@
         </h1>
 
         <p class="hero-tagline">
-          Do not blast more cold emails. Use signals and automation to spot real organizational changes in the UAE, research them, and prepare relevant executive conversations for human review.
+          Do not blast more cold emails. Use signals and automation to spot real organisational changes in the UAE, research them, and prepare relevant executive conversations for human review.
         </p>
 
         <div class="hero-meta-grid">
@@ -290,10 +302,24 @@
       <div class="container">
         <header class="section-header">
           <span class="section-kicker">Part B · Working Automation Component</span>
-          <h2>The Opportunity Radar: Live UAE Buying Signals</h2>
+          <h2>The Opportunity Radar: UAE Buying Signals</h2>
           <p class="section-subtitle">
             A standalone Python engine that monitors free public feeds, strips noise, scores urgency by freshness, and prepares outreach for review.
           </p>
+          <div class="radar-run-meta">
+            <span class="radar-meta-item" id="radar-last-run-display">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Recorded run: <time id="radar-last-run-time">21 Oct 2026</time></span>
+            </span>
+            <span class="radar-meta-sep" aria-hidden="true">&bull;</span>
+            <span class="radar-meta-item">
+              The terminal replays this recorded run. Import the n8n workflow to run it live.
+            </span>
+            <span class="radar-meta-sep" aria-hidden="true">&bull;</span>
+            <a href="https://github.com/TanishkKamra/wellbayt-growth-challenge/blob/main/radar.py" target="_blank" rel="noopener noreferrer" class="radar-script-link">
+              View the script (radar.py) &rarr;
+            </a>
+          </div>
         </header>
 
         <!-- "How It Works" 5-Step Strip -->
@@ -335,6 +361,147 @@
           </div>
         </div>
 
+        <!-- Also Built in n8n Automation Block -->
+        <div class="n8n-block">
+          <div class="n8n-block-header">
+            <div class="n8n-badge-wrap">
+              <span class="n8n-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Also Built in n8n
+              </span>
+              <span class="n8n-cost-badge">$0 / month · 1-Click Import</span>
+            </div>
+            <h3 class="n8n-block-title">Visual Automation Component &amp; Inbound Reply Assistant</h3>
+            <p class="n8n-block-desc">
+              Prefer a visual workflow engine? The complete radar pipeline is ported into a modular n8n workflow. It monitors signals, scores leads, crafts AI openers via Gemini with template fallbacks, exports to CSV, and includes a webhook listener to classify inbound prospect replies.
+            </p>
+          </div>
+
+          <div class="n8n-flow-diagram" aria-label="n8n workflow node pipeline" role="list">
+            <div class="n8n-node" role="listitem">
+              <div class="n8n-node-icon stage-detect" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              </div>
+              <div class="n8n-node-text">
+                <span class="n8n-node-stage">Detect</span>
+                <span class="n8n-node-name">5 Signal Feeds</span>
+              </div>
+            </div>
+
+            <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
+
+            <div class="n8n-node" role="listitem">
+              <div class="n8n-node-icon stage-clean" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              </div>
+              <div class="n8n-node-text">
+                <span class="n8n-node-stage">Clean</span>
+                <span class="n8n-node-name">Noise &amp; UAE Filters</span>
+              </div>
+            </div>
+
+            <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
+
+            <div class="n8n-node" role="listitem">
+              <div class="n8n-node-icon stage-score" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+              </div>
+              <div class="n8n-node-text">
+                <span class="n8n-node-stage">Score</span>
+                <span class="n8n-node-name">Weight &times; Freshness</span>
+              </div>
+            </div>
+
+            <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
+
+            <div class="n8n-node" role="listitem">
+              <div class="n8n-node-icon stage-opener" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="n8n-node-text">
+                <span class="n8n-node-stage">AI Opener</span>
+                <span class="n8n-node-name">Gemini + Fallback</span>
+              </div>
+            </div>
+
+            <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
+
+            <div class="n8n-node" role="listitem">
+              <div class="n8n-node-icon stage-crm" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="n8n-node-text">
+                <span class="n8n-node-stage">CRM</span>
+                <span class="n8n-node-name">CSV / Sheets</span>
+              </div>
+            </div>
+
+            <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
+
+            <div class="n8n-node" role="listitem">
+              <div class="n8n-node-icon stage-reply" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              </div>
+              <div class="n8n-node-text">
+                <span class="n8n-node-stage">Reply</span>
+                <span class="n8n-node-name">Webhook &amp; Intent</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reviewer Trust & Privacy Notice -->
+          <div class="n8n-trust-notice" role="region" aria-label="Reviewer privacy and trust notice">
+            <div class="n8n-trust-header">
+              <div class="n8n-trust-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <div class="n8n-trust-main">
+                <h4 class="n8n-trust-title">Safe to try. Your key stays yours.</h4>
+                <p class="n8n-trust-text">
+                  Optional: add your own free Gemini API key to see AI-written openers. The key stays on your computer (an environment variable). It is never stored in the workflow file, never sent to me, and nothing here is tracked.
+                </p>
+                <p class="n8n-trust-text">
+                  No key? No problem. Leave it out and the workflow uses clear template openers, which are enough to see exactly how the system works.
+                </p>
+                <details class="n8n-trust-details">
+                  <summary class="n8n-trust-summary">
+                    <span>What is sent where</span>
+                    <svg class="n8n-trust-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                  </summary>
+                  <div class="n8n-trust-details-content">
+                    <p>The workflow only contacts Google News (public headlines) and, if you add a key, Google's Gemini API (the headline text, to write the opener). Nothing is sent to anyone else.</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <div class="n8n-block-footer">
+            <p class="n8n-replay-note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>The terminal below replays the real output of a run on 21 Oct 2026. To run it live, import the n8n workflow or run the Python script.</span>
+            </p>
+
+            <div class="n8n-links">
+              <a href="https://github.com/TanishkKamra/wellbayt-growth-challenge/blob/main/n8n/wellbayt-radar.workflow.json" target="_blank" rel="noopener noreferrer" class="n8n-link-btn primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Workflow JSON (wellbayt-radar.workflow.json)
+              </a>
+              <a href="https://github.com/TanishkKamra/wellbayt-growth-challenge/blob/main/n8n/README.md" target="_blank" rel="noopener noreferrer" class="n8n-link-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                Setup &amp; Webhook Guide (README.md)
+              </a>
+              <a href="https://github.com/TanishkKamra/wellbayt-growth-challenge/blob/main/n8n/radar.py" target="_blank" rel="noopener noreferrer" class="n8n-link-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Python Script (radar.py)
+              </a>
+            </div>
+          </div>
+        </div>
+
         <!-- Faux Terminal Window -->
         <div class="terminal-window">
           <div class="terminal-header">
@@ -343,7 +510,7 @@
               <span class="terminal-dot dot-yellow"></span>
               <span class="terminal-dot dot-green"></span>
             </div>
-            <span class="terminal-title">terminal — python radar.py --days 45 --top 12</span>
+            <span class="terminal-title">terminal: python radar.py --days 45 --top 12</span>
             <span class="terminal-badge-zero">Cost to run: $0</span>
           </div>
 
@@ -362,12 +529,12 @@
             <div class="terminal-toolbar-left">
               <button class="btn-terminal-run" id="btn-run-radar" type="button">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
-                Rerun Radar
+                Replay Radar
               </button>
               <button class="btn-terminal-skip" id="btn-skip-radar" type="button">Instant View</button>
             </div>
             <span style="font-size:0.75rem; color:var(--terminal-dim); font-family:var(--font-mono);">
-              Click any line to inspect dossier &rarr;
+              Replaying latest run · Click any line to inspect dossier &rarr;
             </span>
           </div>
         </div>
@@ -375,12 +542,12 @@
         <!-- Interactive Lead Queue Controls & Cards -->
         <div class="radar-queue-controls">
           <div class="filter-pills" role="group" aria-label="Signal Filter">
-            <button class="filter-pill active" type="button" data-filter="all">All Signals (12)</button>
-            <button class="filter-pill" type="button" data-filter="expansion">Single Expansion (11)</button>
-            <button class="filter-pill" type="button" data-filter="multi">Multi-Trigger (1)</button>
-            <button class="filter-pill" type="button" data-filter="fresh">Fresh &le; 14d (3)</button>
+            <button class="filter-pill active" type="button" data-filter="all">All Signals</button>
+            <button class="filter-pill" type="button" data-filter="expansion">Single Expansion</button>
+            <button class="filter-pill" type="button" data-filter="multi">Multi-Trigger</button>
+            <button class="filter-pill" type="button" data-filter="fresh">Fresh &le; 14d</button>
           </div>
-          <span class="queue-count" id="queue-count">Showing 12 verified leads</span>
+          <span class="queue-count" id="queue-count">Showing verified leads</span>
         </div>
 
         <div class="leads-cards-grid" id="leads-cards-grid">
@@ -434,7 +601,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
               <div class="limit-content">
-                <h4>Rule-Based Extraction</h4>
+                <h3>Rule-Based Extraction</h3>
                 <p>Company extraction uses regex heuristics from news titles. A human reviews every lead before outreach to prevent misidentified entities.</p>
               </div>
             </div>
@@ -444,7 +611,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               </div>
               <div class="limit-content">
-                <h4>Public News Coverage</h4>
+                <h3>Public News Coverage</h3>
                 <p>Public news feeds capture prominent announcements, but miss subtle signals like internal promotions. The next iteration adds targeted role tracking.</p>
               </div>
             </div>
@@ -454,7 +621,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </div>
               <div class="limit-content">
-                <h4>Zero Blind Outreach</h4>
+                <h3>Zero Blind Outreach</h3>
                 <p>Nothing is dispatched automatically. The radar produces a clean review queue for Tanishk to verify, enrich, and approve individually.</p>
               </div>
             </div>
@@ -464,7 +631,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               </div>
               <div class="limit-content">
-                <h4>Ethical Testing</h4>
+                <h3>Ethical Testing</h3>
                 <p>No real prospects were contacted during this exercise. All signals are sourced from public 2026 press reporting across the UAE.</p>
               </div>
             </div>
@@ -510,13 +677,13 @@
           <div class="timeline-pane active" id="pane-week1" role="tabpanel" aria-labelledby="tab-step-week1">
             <div class="pane-grid">
               <div class="pane-col">
-                <h4>What I Personally Do</h4>
+                <div class="pane-col-title">What I Personally Do</div>
                 <p>
                   Sit in on your calls and proposals, learn the offers, pricing logic, and past wins. Write the ideal customer profile and 3 core message angles together with you. Set up the CRM pipeline and the radar on live UAE data.
                 </p>
               </div>
               <div class="pane-col">
-                <h4>Concrete Output</h4>
+                <div class="pane-col-title">Concrete Output</div>
                 <p>
                   Validated Ideal Customer Profile (ICP), offer one-pager, and a configured CRM pipeline ready for deal flow.
                 </p>
@@ -528,13 +695,13 @@
           <div class="timeline-pane" id="pane-week2" role="tabpanel" aria-labelledby="tab-step-week2">
             <div class="pane-grid">
               <div class="pane-col">
-                <h4>What I Personally Do</h4>
+                <div class="pane-col-title">What I Personally Do</div>
                 <p>
                   Research 60 target UAE accounts, map HR decision-makers, and send the first 30 hand-written, signal-based messages. Log every reply, objection, and response nuance.
                 </p>
               </div>
               <div class="pane-col">
-                <h4>Concrete Output</h4>
+                <div class="pane-col-title">Concrete Output</div>
                 <p>
                   60 thoroughly researched accounts and 30 active executive conversations started.
                 </p>
@@ -546,13 +713,13 @@
           <div class="timeline-pane" id="pane-week3" role="tabpanel" aria-labelledby="tab-step-week3">
             <div class="pane-grid">
               <div class="pane-col">
-                <h4>What I Personally Do</h4>
+                <div class="pane-col-title">What I Personally Do</div>
                 <p>
                   Double down on the angles that generated positive replies. Automate contact enrichment, follow-up reminders, and meeting booking links for winning angles. Send the first Wellbeing Snapshots.
                 </p>
               </div>
               <div class="pane-col">
-                <h4>Concrete Output</h4>
+                <div class="pane-col-title">Concrete Output</div>
                 <p>
                   Automated follow-up workflows and 10 bespoke Wellbeing Snapshots delivered to high-priority accounts.
                 </p>
@@ -564,13 +731,13 @@
           <div class="timeline-pane" id="pane-week4" role="tabpanel" aria-labelledby="tab-step-week4">
             <div class="pane-grid">
               <div class="pane-col">
-                <h4>What I Personally Do</h4>
+                <div class="pane-col-title">What I Personally Do</div>
                 <p>
                   Run the full weekly cycle, hand qualified meetings to Alvaro with a pre-call briefing note, and review conversion metrics together.
                 </p>
               </div>
               <div class="pane-col">
-                <h4>Concrete Output</h4>
+                <div class="pane-col-title">Concrete Output</div>
                 <p>
                   First qualified intro meetings booked, plus a detailed monthly conversion report and next-month scaling plan.
                 </p>

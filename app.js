@@ -437,6 +437,38 @@
     '.timeline-pane'
   );
 
+  // --- Automated Run Timestamp Display ---
+  function formatRunDate(isoString) {
+    if (!isoString) return null;
+    try {
+      const date = new Date(isoString);
+      if (isNaN(date.getTime())) return null;
+      return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function updateLastRunDisplay(isoString) {
+    const timeEl = document.getElementById('radar-last-run-time');
+    if (!timeEl) return;
+    const formatted = formatRunDate(isoString);
+    if (formatted) {
+      timeEl.textContent = formatted;
+      timeEl.setAttribute('datetime', isoString);
+      timeEl.setAttribute('title', isoString);
+    } else {
+      timeEl.textContent = '21 Oct 2026';
+    }
+  }
+
   // --- Part B: Terminal Simulation (Robust & Re-entrant Safe) ---
   const btnRunRadar = document.getElementById('btn-run-radar');
   const btnSkipRadar = document.getElementById('btn-skip-radar');
@@ -484,11 +516,23 @@
     if (btnRunRadar) {
       btnRunRadar.disabled = !instant;
       btnRunRadar.innerHTML = instant
-        ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg> Rerun Radar`
-        : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Running...`;
+        ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg> Replay Radar`
+        : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Replaying...`;
     }
 
     if (terminalLog) terminalLog.innerHTML = '';
+
+    if (leads.length === 0) {
+      if (terminalLog) {
+        terminalLog.innerHTML = '<div style="padding:1rem; color:var(--terminal-dim); font-style:italic;">No leads in latest run.</div>';
+      }
+      isSimulating = false;
+      if (btnRunRadar) {
+        btnRunRadar.disabled = false;
+        btnRunRadar.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg> Replay Radar`;
+      }
+      return;
+    }
 
     const executeStream = () => {
       leads.forEach((lead, index) => {
@@ -499,10 +543,10 @@
           row.className = 'stream-row';
           row.tabIndex = 0;
           row.setAttribute('role', 'button');
-          row.setAttribute('aria-label', `View details for ${lead.company}`);
-
           const scoreStr = lead.score.toFixed(2).padStart(5, ' ');
           const signalStr = Array.isArray(lead.signals) ? lead.signals.join(', ') : lead.signals;
+
+          row.setAttribute('aria-label', `${lead.company} - score ${scoreStr.trim()}: ${lead.headline}`);
 
           row.innerHTML = `
             <span class="stream-score">${scoreStr}</span>
@@ -527,7 +571,7 @@
             isSimulating = false;
             if (btnRunRadar) {
               btnRunRadar.disabled = false;
-              btnRunRadar.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg> Rerun Radar`;
+              btnRunRadar.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg> Replay Radar`;
             }
           }
         }, delay);
@@ -536,10 +580,10 @@
     };
 
     if (instant) {
-      if (terminalCmd) terminalCmd.textContent = 'python radar.py --days 45 --top 12';
+      if (terminalCmd) terminalCmd.textContent = 'python radar.py';
       executeStream();
     } else {
-      typeCommand('python radar.py --days 45 --top 12', executeStream);
+      typeCommand('python radar.py', executeStream);
     }
   }
 
@@ -558,9 +602,15 @@
 
   function updateFilterCounts() {
     const totalCount = leads.length;
-    const expansionCount = leads.filter(l => l.signals.includes('expansion') && l.signals.length === 1).length;
-    const multiCount = leads.filter(l => l.signals.length > 1).length;
-    const freshCount = leads.filter(l => l.age <= 14).length;
+    const expansionCount = leads.filter(l => {
+      const sigs = Array.isArray(l.signals) ? l.signals : [l.signals];
+      return sigs.includes('expansion') && sigs.length === 1;
+    }).length;
+    const multiCount = leads.filter(l => {
+      const sigs = Array.isArray(l.signals) ? l.signals : [l.signals];
+      return sigs.length > 1;
+    }).length;
+    const freshCount = leads.filter(l => Number(l.age) <= 14).length;
 
     filterPills.forEach(pill => {
       const type = pill.getAttribute('data-filter');
@@ -569,17 +619,28 @@
       if (type === 'multi') pill.textContent = `Multi-Trigger (${multiCount})`;
       if (type === 'fresh') pill.textContent = `Fresh ≤ 14d (${freshCount})`;
     });
+
+    if (queueCountEl) {
+      const filtered = getFilteredLeads();
+      queueCountEl.textContent = `Showing ${filtered.length} of ${totalCount} verified leads`;
+    }
   }
 
   function getFilteredLeads() {
     if (activeFilter === 'expansion') {
-      return leads.filter(l => l.signals.includes('expansion') && l.signals.length === 1);
+      return leads.filter(l => {
+        const sigs = Array.isArray(l.signals) ? l.signals : [l.signals];
+        return sigs.includes('expansion') && sigs.length === 1;
+      });
     }
     if (activeFilter === 'multi') {
-      return leads.filter(l => l.signals.length > 1);
+      return leads.filter(l => {
+        const sigs = Array.isArray(l.signals) ? l.signals : [l.signals];
+        return sigs.length > 1;
+      });
     }
     if (activeFilter === 'fresh') {
-      return leads.filter(l => l.age <= 14);
+      return leads.filter(l => Number(l.age) <= 14);
     }
     return leads;
   }
@@ -607,7 +668,7 @@
       card.className = 'lead-card';
       card.tabIndex = 0;
       card.setAttribute('role', 'button');
-      card.setAttribute('aria-label', `Dossier for ${lead.company}, score ${lead.score.toFixed(2)}`);
+      card.setAttribute('aria-label', `${lead.company} - dossier, score ${lead.score.toFixed(2)}: ${lead.headline}`);
 
       const signalTags = (Array.isArray(lead.signals) ? lead.signals : [lead.signals])
         .map(s => `<span class="lead-tag">${escapeHtml(s.replace(/_/g, ' '))}</span>`)
@@ -807,14 +868,43 @@
   }
 
   // --- Dynamic data loading with graceful fallback ---
-  if (window.location.protocol.startsWith('http')) {
+  function loadRadarData() {
+    if (!window.location.protocol.startsWith('http')) {
+      updateFilterCounts();
+      renderLeadCards();
+      return;
+    }
+
+    // Attempt to load run metadata
+    fetch('run_meta.json')
+      .then(res => res.ok ? res.json() : null)
+      .then(meta => {
+        if (meta && meta.last_run) {
+          updateLastRunDisplay(meta.last_run);
+        }
+      })
+      .catch(() => {});
+
+    // Attempt to load leads from data.json
     fetch('data.json')
       .then(res => res.ok ? res.json() : Promise.reject())
       .then(data => {
+        let loadedLeads = null;
         if (Array.isArray(data) && data.length > 0) {
-          leads = data;
+          loadedLeads = data;
+        } else if (data && Array.isArray(data.leads) && data.leads.length > 0) {
+          loadedLeads = data.leads;
+          if (data.last_run) {
+            updateLastRunDisplay(data.last_run);
+          }
+        }
+        if (loadedLeads) {
+          leads = loadedLeads;
           updateFilterCounts();
           renderLeadCards();
+          if (!isSimulating) {
+            startRadarSimulation(true);
+          }
         }
       })
       .catch(() => {
@@ -829,4 +919,5 @@
   updateFilterCounts();
   renderLeadCards();
   startRadarSimulation(true);
+  loadRadarData();
 })();
