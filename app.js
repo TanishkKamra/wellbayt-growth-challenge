@@ -213,7 +213,8 @@
   let activeViewTransition = null;
 
   function initTheme() {
-    const savedTheme = localStorage.getItem('wellbayt-theme');
+    const param = new URLSearchParams(window.location.search).get('theme');
+    const savedTheme = param || localStorage.getItem('wellbayt-theme');
     if (savedTheme === 'dark' || (!savedTheme && prefersDark.matches)) {
       setTheme('dark');
     } else {
@@ -257,22 +258,30 @@
       document.documentElement.style.setProperty('--toggle-y', `${y}px`);
       document.documentElement.style.setProperty('--toggle-r', `${endRadius}px`);
 
+      // Kill element transitions so the revealed theme is fully painted, not mid-fade.
+      document.documentElement.classList.add('vt-active');
       try {
         const transition = document.startViewTransition(() => {
           setTheme(next);
         });
         activeViewTransition = transition;
+        // Safety net: never leave element transitions disabled if the transition stalls.
+        setTimeout(() => {
+          if (activeViewTransition === transition) document.documentElement.classList.remove('vt-active');
+        }, 1500);
 
         transition.finished.finally(() => {
           if (activeViewTransition === transition) {
+            document.documentElement.classList.remove('vt-active');
             document.documentElement.style.removeProperty('--toggle-x');
             document.documentElement.style.removeProperty('--toggle-y');
             document.documentElement.style.removeProperty('--toggle-r');
             activeViewTransition = null;
           }
-        });
+        }).catch(() => {});
       } catch (err) {
         activeViewTransition = null;
+        document.documentElement.classList.remove('vt-active');
         setTheme(next);
       }
       return;

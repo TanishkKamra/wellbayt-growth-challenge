@@ -52,12 +52,6 @@
   <!-- Accessible Skip Navigation Link -->
   <a href="#hero" class="skip-link">Skip to main content</a>
 
-  <!-- Ambient Wellbeing Atmosphere -->
-  <div class="ambient-bg" aria-hidden="true">
-    <div class="ambient-orb ambient-orb-1"></div>
-    <div class="ambient-orb ambient-orb-2"></div>
-  </div>
-
   <!-- Header & Sticky Mini-Navigation -->
   <header class="site-header" id="top">
     <div class="container nav-container">
@@ -93,14 +87,10 @@
     <!-- Section 1: Hero -->
     <section class="section hero-section" id="hero">
       <div class="container">
-        <div class="hero-meta-pill">
-          <span class="dot" aria-hidden="true"></span>
-          <span>Wellbayt AI Growth Challenge &nbsp;·&nbsp; Tanishk Kamra</span>
-        </div>
 
-        <h1 class="hero-title">
+<h1 class="hero-title">
           Reach companies at the moment<br>
-          <span class="gradient-text">they have a reason to care.</span>
+          they have a reason to care.
         </h1>
 
         <p class="hero-tagline">
@@ -143,152 +133,107 @@
     <section class="section" id="part-a">
       <div class="container">
         <header class="section-header">
-          <span class="section-kicker">Part A · Strategic Outbound</span>
-          <h2>Three Ways to Start Genuine Conversations</h2>
+          <h2>Part A. Three Ways to Start Genuine Conversations</h2>
           <p class="section-subtitle">
             Replacing generic outreach with timing-driven triggers, calendar relevance, and pre-researched value.
           </p>
         </header>
 
-        <div class="cards-grid">
-          <!-- Card 1: Moment Radar -->
-          <article class="approach-card expanded" id="card-moment-radar">
-            <div class="approach-header">
-              <div class="approach-icon-wrap" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-              </div>
-              <span class="approach-badge">Approach 1 · Working Demo Below</span>
-            </div>
-            <h3 class="approach-title">1. Moment Radar</h3>
+        <div class="approach-featured">
+          <div class="approach-featured-header">
+            <h3 class="approach-title">1. Moment Radar: Reach Companies at the Moment of Change</h3>
             <p class="approach-summary">
               Wellbeing budgets move when leadership, offices, or headcount shift. Automation watches public news for triggers, ranks them by freshness, and drafts openers citing the real event.
             </p>
+          </div>
+
+          <div class="approach-case-studies">
+            <div class="case-studies-header">
+              <span class="case-studies-label">Real Examples (From Recorded Run):</span>
+            </div>
             
-            <button class="expand-toggle" type="button" aria-expanded="true">
-              <span class="toggle-text">Hide details</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
+            <div class="subtabs-nav" role="tablist" aria-label="Moment Radar Case Studies">
+              <button class="subtab-btn active" id="tab-btn-keolis" role="tab" aria-selected="true" tabindex="0" data-target="tab-keolis" aria-controls="tab-keolis">Keolis (Regional HQ)</button>
+              <button class="subtab-btn" id="tab-btn-dior" role="tab" aria-selected="false" tabindex="-1" data-target="tab-dior" aria-controls="tab-dior">Dior (Distribution Hub)</button>
+              <button class="subtab-btn" id="tab-btn-workday" role="tab" aria-selected="false" tabindex="-1" data-target="tab-workday" aria-controls="tab-workday">Workday (Dubai Office)</button>
+            </div>
 
-            <div class="approach-details">
-              <p style="font-size:0.84rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:0.6rem;">Real Examples (From Live Run):</p>
-              
-              <div class="subtabs-nav" role="tablist" aria-label="Moment Radar Case Studies">
-                <button class="subtab-btn active" id="tab-btn-keolis" role="tab" aria-selected="true" tabindex="0" data-target="tab-keolis" aria-controls="tab-keolis">Keolis</button>
-                <button class="subtab-btn" id="tab-btn-dior" role="tab" aria-selected="false" tabindex="-1" data-target="tab-dior" aria-controls="tab-dior">Dior</button>
-                <button class="subtab-btn" id="tab-btn-workday" role="tab" aria-selected="false" tabindex="-1" data-target="tab-workday" aria-controls="tab-workday">Workday</button>
-              </div>
-
-              <!-- Keolis Tab Pane -->
-              <div class="subtab-pane active" id="tab-keolis" role="tabpanel" aria-labelledby="tab-btn-keolis">
-                <div class="dossier-pill-row">
-                  <div>
-                    <strong>Signal</strong>
-                    <span>Opened a regional HQ in Dubai (6 days ago).</span>
-                  </div>
-                  <div>
-                    <strong>Why Target</strong>
-                    <span>Transport operator with shift-based and frontline staff. A new regional team is forming, so culture and retention are set early.</span>
-                  </div>
-                  <div>
-                    <strong>How I Would Approach</strong>
-                    <span>Note to the regional HR/People lead: congratulate on the HQ, offer a short onsite movement and wellbeing session for the first cohort, designed around shift patterns.</span>
-                  </div>
+            <!-- Keolis Tab Pane -->
+            <div class="subtab-pane active" id="tab-keolis" role="tabpanel" aria-labelledby="tab-btn-keolis">
+              <div class="dossier-pill-row">
+                <div>
+                  <strong>Signal</strong>
+                  <span>Opened a regional HQ in Dubai (6 days ago).</span>
                 </div>
-              </div>
-
-              <!-- Dior Tab Pane -->
-              <div class="subtab-pane" id="tab-dior" role="tabpanel" aria-labelledby="tab-btn-dior">
-                <div class="dossier-pill-row">
-                  <div>
-                    <strong>Signal</strong>
-                    <span>Opened a 7,200 sqm Dubai South hub (about 30 days ago).</span>
-                  </div>
-                  <div>
-                    <strong>Why Target</strong>
-                    <span>A logistics and distribution site means a large on-feet workforce with physical strain and fatigue, a natural fit for movement and ergonomics workshops.</span>
-                  </div>
-                  <div>
-                    <strong>How I Would Approach</strong>
-                    <span>Approach the hub's HR/operations lead with a practical "healthy shift" pilot: short stretch breaks, posture workshop, a team step challenge. Offer to run a single pilot day.</span>
-                  </div>
+                <div>
+                  <strong>Why Target</strong>
+                  <span>Transport operator with shift-based and frontline staff. A new regional team is forming, so culture and retention are set early.</span>
                 </div>
-              </div>
-
-              <!-- Workday Tab Pane -->
-              <div class="subtab-pane" id="tab-workday" role="tabpanel" aria-labelledby="tab-btn-workday">
-                <div class="dossier-pill-row">
-                  <div>
-                    <strong>Signal</strong>
-                    <span>Launched UAE operations and a Dubai office (about 20 days ago).</span>
-                  </div>
-                  <div>
-                    <strong>Why Target</strong>
-                    <span>They sell to HR leaders, so they know the value of wellbeing. A new UAE team is being built and onboarded now.</span>
-                  </div>
-                  <div>
-                    <strong>How I Would Approach</strong>
-                    <span>Offer an onboarding-week wellbeing activation and a movement challenge that builds the new Dubai team's bonds. Position it as a culture launch, not a vendor pitch.</span>
-                  </div>
+                <div>
+                  <strong>How I Would Approach</strong>
+                  <span>Note to the regional HR/People lead: congratulate on the HQ, offer a short onsite movement and wellbeing session for the first cohort, designed around shift patterns.</span>
                 </div>
               </div>
             </div>
-          </article>
 
-          <!-- Card 2: Calendar-led Challenges -->
-          <article class="approach-card" id="card-calendar-challenges">
-            <div class="approach-header">
-              <div class="approach-icon-wrap" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <!-- Dior Tab Pane -->
+            <div class="subtab-pane" id="tab-dior" role="tabpanel" aria-labelledby="tab-btn-dior">
+              <div class="dossier-pill-row">
+                <div>
+                  <strong>Signal</strong>
+                  <span>Opened a 7,200 sqm Dubai South hub (about 30 days ago).</span>
+                </div>
+                <div>
+                  <strong>Why Target</strong>
+                  <span>A logistics and distribution site means a large on-feet workforce with physical strain and fatigue, a natural fit for movement and ergonomics workshops.</span>
+                </div>
+                <div>
+                  <strong>How I Would Approach</strong>
+                  <span>Approach the hub's HR/operations lead with a practical "healthy shift" pilot: short stretch breaks, posture workshop, a team step challenge. Offer to run a single pilot day.</span>
+                </div>
               </div>
-              <span class="approach-badge">Approach 2 · Turnkey Moments</span>
             </div>
+
+            <!-- Workday Tab Pane -->
+            <div class="subtab-pane" id="tab-workday" role="tabpanel" aria-labelledby="tab-btn-workday">
+              <div class="dossier-pill-row">
+                <div>
+                  <strong>Signal</strong>
+                  <span>Launched UAE operations and a Dubai office (about 20 days ago).</span>
+                </div>
+                <div>
+                  <strong>Why Target</strong>
+                  <span>They sell to HR leaders, so they know the value of wellbeing. A new UAE team is being built and onboarded now.</span>
+                </div>
+                <div>
+                  <strong>How I Would Approach</strong>
+                  <span>Offer an onboarding-week wellbeing activation and a movement challenge that builds the new Dubai team's bonds. Position it as a culture launch, not a vendor pitch.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="approaches-split">
+          <div class="approach-col">
             <h3 class="approach-title">2. Calendar-Led Challenges</h3>
             <p class="approach-summary">
-              Instead of pitching generic workshops, offer a ready-made participation moment tied to key UAE dates HR already plans for.
+              Instead of pitching generic workshops, offer a ready-made participation moment tied to key UAE dates HR already plans for: World Mental Health Day (10 October), Ramadan, the annual Dubai fitness season, new-year budget cycles, and UAE working-week transitions.
             </p>
-
-            <button class="expand-toggle" type="button" aria-expanded="false">
-              <span class="toggle-text">Explore details</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-
-            <div class="approach-details">
-              <p style="font-size:0.88rem; line-height:1.55; color:var(--text-secondary); margin-bottom:0.75rem;">
-                Tied directly to dates HR already cares about: <b>World Mental Health Day</b> (10 October), <b>Ramadan</b>, the annual <b>Dubai fitness season</b>, new-year budget cycles, and <b>UAE working-week transitions</b> (shorter working-week workload adjustments).
-              </p>
-              <div style="background:var(--bg-surface-elevated); padding:0.8rem; border-radius:var(--radius-md); border:1px solid var(--border-subtle); font-size:0.84rem;">
-                <strong>Execution Mechanism:</strong> Automation maps each target company's industry and headcount to the most compelling seasonal date, generating a clean one-page "company challenge" HR can join in a single click.
-              </div>
+            <div class="approach-meta-note">
+              <strong>Execution:</strong> Automation maps each target company's industry and headcount to the most compelling seasonal date, generating a clean one-page "company challenge" HR can join in a single click.
             </div>
-          </article>
+          </div>
 
-          <!-- Card 3: Give-first Wellbeing Snapshot -->
-          <article class="approach-card" id="card-wellbeing-snapshot">
-            <div class="approach-header">
-              <div class="approach-icon-wrap" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              </div>
-              <span class="approach-badge">Approach 3 · High-Touch Value</span>
-            </div>
+          <div class="approach-col">
             <h3 class="approach-title">3. Give-First Wellbeing Snapshot</h3>
             <p class="approach-summary">
               For top-tier accounts, assemble a pre-researched one-page snapshot using public data only, sent as a gift showing homework before asking for anything.
             </p>
-
-            <button class="expand-toggle" type="button" aria-expanded="false">
-              <span class="toggle-text">Explore details</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-
-            <div class="approach-details">
-              <p style="font-size:0.88rem; line-height:1.55; color:var(--text-secondary); margin-bottom:0.75rem;">
-                Synthesizes public intelligence: office headcount and sites, shift patterns implied by their sector, recent news, and three tailored programme recommendations with expected outcomes.
-              </p>
-              <div style="background:var(--bg-surface-elevated); padding:0.8rem; border-radius:var(--radius-md); border:1px solid var(--border-subtle); font-size:0.84rem;">
-                <strong>Focus on Quality Over Volume:</strong> About 10 high-value snapshots dispatched each week. Every snapshot is verified by hand, giving HR something concrete to circulate internally to stakeholders.
-              </div>
+            <div class="approach-meta-note">
+              <strong>Execution:</strong> Synthesises public intelligence: headcount, sites, industry shift patterns, and three tailored programme recommendations. About 10 high-value snapshots dispatched each week, each verified by hand.
             </div>
-          </article>
+          </div>
         </div>
 
         <div class="takeaway-banner">
@@ -301,8 +246,7 @@
     <section class="section" id="part-b">
       <div class="container">
         <header class="section-header">
-          <span class="section-kicker">Part B · Working Automation Component</span>
-          <h2>The Opportunity Radar: UAE Buying Signals</h2>
+          <h2>Part B. The Opportunity Radar: UAE Buying Signals</h2>
           <p class="section-subtitle">
             A standalone Python engine that monitors free public feeds, strips noise, scores urgency by freshness, and prepares outreach for review.
           </p>
@@ -364,22 +308,15 @@
         <!-- Also Built in n8n Automation Block -->
         <div class="n8n-block">
           <div class="n8n-block-header">
-            <div class="n8n-badge-wrap">
-              <span class="n8n-badge">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                Also Built in n8n
-              </span>
-              <span class="n8n-cost-badge">$0 / month · 1-Click Import</span>
-            </div>
-            <h3 class="n8n-block-title">Visual Automation Component &amp; Inbound Reply Assistant</h3>
+            <h3 class="n8n-block-title">Visual n8n Workflow Component &amp; Inbound Reply Assistant</h3>
             <p class="n8n-block-desc">
-              Prefer a visual workflow engine? The complete radar pipeline is ported into a modular n8n workflow. It monitors signals, scores leads, crafts AI openers via Gemini with template fallbacks, exports to CSV, and includes a webhook listener to classify inbound prospect replies.
+              The complete radar pipeline is also available as an importable n8n workflow. Operating at $0/month, it monitors signals, scores leads, crafts openers via Gemini with automatic template fallback, exports to CSV, and includes a webhook listener to classify inbound prospect replies.
             </p>
           </div>
 
           <div class="n8n-flow-diagram" aria-label="n8n workflow node pipeline" role="list">
             <div class="n8n-node" role="listitem">
-              <div class="n8n-node-icon stage-detect" aria-hidden="true">
+              <div class="n8n-node-icon " aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               </div>
               <div class="n8n-node-text">
@@ -391,7 +328,7 @@
             <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
 
             <div class="n8n-node" role="listitem">
-              <div class="n8n-node-icon stage-clean" aria-hidden="true">
+              <div class="n8n-node-icon " aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
               </div>
               <div class="n8n-node-text">
@@ -403,7 +340,7 @@
             <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
 
             <div class="n8n-node" role="listitem">
-              <div class="n8n-node-icon stage-score" aria-hidden="true">
+              <div class="n8n-node-icon " aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
               </div>
               <div class="n8n-node-text">
@@ -415,7 +352,7 @@
             <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
 
             <div class="n8n-node" role="listitem">
-              <div class="n8n-node-icon stage-opener" aria-hidden="true">
+              <div class="n8n-node-icon " aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               </div>
               <div class="n8n-node-text">
@@ -427,7 +364,7 @@
             <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
 
             <div class="n8n-node" role="listitem">
-              <div class="n8n-node-icon stage-crm" aria-hidden="true">
+              <div class="n8n-node-icon " aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               </div>
               <div class="n8n-node-text">
@@ -439,7 +376,7 @@
             <div class="n8n-node-arrow" aria-hidden="true">&rarr;</div>
 
             <div class="n8n-node" role="listitem">
-              <div class="n8n-node-icon stage-reply" aria-hidden="true">
+              <div class="n8n-node-icon " aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
               </div>
               <div class="n8n-node-text">
@@ -511,7 +448,7 @@
               <span class="terminal-dot dot-green"></span>
             </div>
             <span class="terminal-title">terminal: python radar.py --days 45 --top 12</span>
-            <span class="terminal-badge-zero">Cost to run: $0</span>
+            
           </div>
 
           <div class="terminal-body" id="terminal-screen">
@@ -587,54 +524,31 @@
     <section class="section" id="limits">
       <div class="container">
         <header class="section-header">
-          <span class="section-kicker">Operational Integrity</span>
           <h2>Honest Limits &amp; Human Verification</h2>
           <p class="section-subtitle">
             Automation surfaces opportunities; human judgment ensures relevance, tone, and brand safety.
           </p>
         </header>
 
-        <div class="limits-card">
-          <div class="limits-grid">
-            <div class="limit-item">
-              <div class="limit-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div class="limit-content">
-                <h3>Rule-Based Extraction</h3>
-                <p>Company extraction uses regex heuristics from news titles. A human reviews every lead before outreach to prevent misidentified entities.</p>
-              </div>
-            </div>
+        <div class="limits-grid">
+          <div class="limit-item">
+            <h3 class="limit-title">Rule-Based Extraction</h3>
+            <p class="limit-desc">Company extraction uses regex heuristics from news titles. A human reviews every lead before outreach to prevent misidentified entities.</p>
+          </div>
 
-            <div class="limit-item">
-              <div class="limit-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              </div>
-              <div class="limit-content">
-                <h3>Public News Coverage</h3>
-                <p>Public news feeds capture prominent announcements, but miss subtle signals like internal promotions. The next iteration adds targeted role tracking.</p>
-              </div>
-            </div>
+          <div class="limit-item">
+            <h3 class="limit-title">Public News Coverage</h3>
+            <p class="limit-desc">Public news feeds capture prominent announcements, but miss subtle signals like internal promotions. The next iteration adds targeted role tracking.</p>
+          </div>
 
-            <div class="limit-item">
-              <div class="limit-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
-              <div class="limit-content">
-                <h3>Zero Blind Outreach</h3>
-                <p>Nothing is dispatched automatically. The radar produces a clean review queue for Tanishk to verify, enrich, and approve individually.</p>
-              </div>
-            </div>
+          <div class="limit-item">
+            <h3 class="limit-title">Zero Blind Outreach</h3>
+            <p class="limit-desc">Nothing is dispatched automatically. The radar produces a clean review queue for Tanishk to verify, enrich, and approve individually.</p>
+          </div>
 
-            <div class="limit-item">
-              <div class="limit-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              </div>
-              <div class="limit-content">
-                <h3>Ethical Testing</h3>
-                <p>No real prospects were contacted during this exercise. All signals are sourced from public 2026 press reporting across the UAE.</p>
-              </div>
-            </div>
+          <div class="limit-item">
+            <h3 class="limit-title">Ethical Testing</h3>
+            <p class="limit-desc">No real prospects were contacted during this exercise. All signals are sourced from public 2026 press reporting across the UAE.</p>
           </div>
         </div>
       </div>
@@ -644,8 +558,7 @@
     <section class="section" id="part-c">
       <div class="container">
         <header class="section-header">
-          <span class="section-kicker">Part C · Execution Roadmap</span>
-          <h2>My First 30 Days &amp; Success Metrics</h2>
+          <h2>Part C. My First 30 Days &amp; Success Metrics</h2>
           <p class="section-subtitle">
             From mastering Wellbayt's unit economics in Week 1 to consistent qualified executive intro meetings by Day 30.
           </p>
@@ -749,7 +662,7 @@
         <!-- Metrics Row -->
         <div class="metrics-row">
           <div class="metric-card">
-            <span class="metric-type-badge">Leading Metrics</span>
+            <span class="metric-category">Leading Metrics</span>
             <div class="metric-title">Input &amp; Velocity</div>
             <p class="metric-desc">
               Accounts researched, personalised messages sent, reply rate, and positive reply rate.
@@ -757,7 +670,7 @@
           </div>
 
           <div class="metric-card">
-            <span class="metric-type-badge">Outcome Metrics</span>
+            <span class="metric-category">Outcome Metrics</span>
             <div class="metric-title">Pipeline &amp; Deals</div>
             <p class="metric-desc">
               Qualified conversations, introductory meetings booked per week, and meetings converted to proposals.
@@ -765,7 +678,7 @@
           </div>
 
           <div class="metric-card">
-            <span class="metric-type-badge">30-Day Benchmark</span>
+            <span class="metric-category">30-Day Benchmark</span>
             <div class="metric-title">~150 Accounts / 5-8 Intros</div>
             <p class="metric-desc">
               A collaborative baseline to calibrate once we review Wellbayt's historical conversion benchmarks.
@@ -773,7 +686,7 @@
           </div>
 
           <div class="metric-card">
-            <span class="metric-type-badge">Cadence</span>
+            <span class="metric-category">Cadence</span>
             <div class="metric-title">Weekly 1-Page Dashboard</div>
             <p class="metric-desc">
               Clear visibility into CRM funnel progression, objection trends, and iterative next steps.
@@ -786,15 +699,10 @@
     <!-- Section 6: Close & Contact -->
     <section class="section close-section" id="contact">
       <div class="container">
-        <div class="close-card">
-          <div class="hero-meta-pill" style="margin-bottom:0.8rem;">
-            <span class="dot" aria-hidden="true"></span>
-            <span>Available full-time, immediately</span>
-          </div>
-
+        <div class="close-block">
           <h2 class="close-headline">Ready to build Wellbayt's outbound engine?</h2>
           <p class="close-desc">
-            Let's turn UAE market changes into meaningful client relationships. Remote, full-time, starting immediately.
+            Turn UAE market changes into qualified introductory meetings. Available full-time, remote, starting immediately.
           </p>
 
           <div class="close-actions">
@@ -811,7 +719,6 @@
               Download Full PDF
             </a>
           </div>
-        </div>
       </div>
     </section>
   </main>
