@@ -250,10 +250,8 @@
       };
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
-      const endRadius = Math.ceil(Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
-      )) + 2;
+      // Oversized on purpose: the circle must clear every corner well before the animation ends, so there is no snap.
+      const endRadius = Math.ceil(Math.hypot(window.innerWidth, window.innerHeight) * 1.6);
 
       document.documentElement.style.setProperty('--toggle-x', `${x}px`);
       document.documentElement.style.setProperty('--toggle-y', `${y}px`);

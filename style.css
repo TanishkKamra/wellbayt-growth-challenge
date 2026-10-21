@@ -433,7 +433,7 @@ code {
 
 ::view-transition-new(root) {
   z-index: 9999;
-  animation: circleReveal 550ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: circleReveal 700ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes circleReveal {
