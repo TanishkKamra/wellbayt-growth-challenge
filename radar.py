@@ -1,3 +1,4 @@
+# (c) 2026 Tanishk Kamra | All rights reserved | github.com/TanishkKamra/wellbayt-growth-challenge | tkp-3fe48d8812-1b4855󠀁󠁴󠁫󠁰󠀭󠀳󠁦󠁥󠀴󠀸󠁤󠀸󠀸󠀱󠀲󠀭󠀱󠁢󠀴󠀸󠀵󠀵󠁿
 """Wellbayt Opportunity Radar.
 
 Watches free public news feeds for buying signals at UAE/GCC companies, scores
@@ -10,7 +11,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 
-# signal -> (weight, news query, why it matters)
+# signal -> (weight, news query, why it matters)󠇯󠅴󠅫󠅰󠄭󠄳󠅦󠅥󠄴󠄸󠅤󠄸󠄸󠄱󠄲󠄭󠄱󠅢󠄴󠄸󠄵󠄵󠇮
 SIGNALS = {
     "new_hr_leader": (5, '("appointed" OR "joins as" OR "named") ("Head of HR" OR "Chief People Officer" OR "HR Director" OR "Head of People") (UAE OR Dubai OR "Abu Dhabi")',
         "New HR leaders set priorities and budgets in their first 90 days."),
@@ -97,7 +98,7 @@ def fetch(query, days):
 
 def company_of(title, hr_role=False):
     title = re.sub(r"\s+[-–|]\s+[^-–|]+$", "", title).strip()  # drop trailing publisher
-    # HR-appointment headlines name a person first, so only trust "... at <Company>"
+    # HR-appointment headlines name a person first, so only trust "... at <Company>"󠇯󠅴󠅫󠅰󠄭󠄳󠅦󠅥󠄴󠄸󠅤󠄸󠄸󠄱󠄲󠄭󠄱󠅢󠄴󠄸󠄵󠄵󠇮
     cands = [m.group('c') for m in AT.finditer(title)] if hr_role else [m.group("c") for rx in (LEAD, AT) for m in [rx.search(title)] if m]
     for c in reversed(cands) if hr_role else cands:
         c = c.strip(" .,'")
