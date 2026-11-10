@@ -1,4 +1,4 @@
-# (c) 2026 Tanishk Kamra | All rights reserved | github.com/TanishkKamra/wellbayt-growth-challenge | tkp-3fe48d8812-41685f󠀁󠁴󠁫󠁰󠀭󠀳󠁦󠁥󠀴󠀸󠁤󠀸󠀸󠀱󠀲󠀭󠀴󠀱󠀶󠀸󠀵󠁦󠁿
+# (c) 2026 Tanishk Kamra | All rights reserved | github.com/TanishkKamra/wellbayt-growth-challenge | tkp-3fe48d8812-41685f󠁻󠁴󠁫󠁰󠀭󠀳󠁦󠁥󠀴󠀸󠁤󠀸󠀸󠀱󠀲󠀭󠀴󠀱󠀶󠀸󠀵󠁦󠁽
 """Wellbayt Opportunity Radar.
 
 Watches free public news feeds for buying signals at UAE/GCC companies, scores

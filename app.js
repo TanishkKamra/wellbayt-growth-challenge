@@ -1,4 +1,4 @@
-// (c) 2026 Tanishk Kamra | All rights reserved | github.com/TanishkKamra/wellbayt-growth-challenge | tkp-3fe48d8812-62a8c8󠀁󠁴󠁫󠁰󠀭󠀳󠁦󠁥󠀴󠀸󠁤󠀸󠀸󠀱󠀲󠀭󠀶󠀲󠁡󠀸󠁣󠀸󠁿
+// (c) 2026 Tanishk Kamra | All rights reserved | github.com/TanishkKamra/wellbayt-growth-challenge | tkp-3fe48d8812-62a8c8󠁻󠁴󠁫󠁰󠀭󠀳󠁦󠁥󠀴󠀸󠁤󠀸󠀸󠀱󠀲󠀭󠀶󠀲󠁡󠀸󠁣󠀸󠁽
 /**
  * Wellbayt AI Growth Challenge - Interactive Application
  * Built for Tanishk Kamra's response to Alvaro & Wellbayt
