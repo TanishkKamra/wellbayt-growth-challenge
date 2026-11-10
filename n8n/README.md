@@ -1,3 +1,4 @@
+<!-- (c) 2026 Tanishk Kamra | All rights reserved | github.com/TanishkKamra/wellbayt-growth-challenge | tkp-3fe48d8812-c8c60f󠁻󠁴󠁫󠁰󠀭󠀳󠁦󠁥󠀴󠀸󠁤󠀸󠀸󠀱󠀲󠀭󠁣󠀸󠁣󠀶󠀰󠁦󠁽 -->
 # Wellbayt Opportunity Radar: n8n Automation Component
 
 This folder contains a complete, functional n8n workflow that automates the Opportunity Radar outbound engine and inbound reply triage described in the Wellbayt AI Growth Challenge.

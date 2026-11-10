@@ -1,3 +1,4 @@
+/* (c) 2026 Tanishk Kamra | All rights reserved | github.com/TanishkKamra/wellbayt-growth-challenge | tkp-3fe48d8812-006b42󠁻󠁴󠁫󠁰󠀭󠀳󠁦󠁥󠀴󠀸󠁤󠀸󠀸󠀱󠀲󠀭󠀰󠀰󠀶󠁢󠀴󠀲󠁽 */
 /* ==========================================================================
    Wellbayt AI Growth Challenge - Stylesheet
    Crafted for Tanishk Kamra's response to Wellbayt
@@ -1981,3 +1982,4 @@ button:focus-visible, a:focus-visible, [tabindex="0"]:focus-visible {
   border-top: 1px solid var(--border-subtle);
   color: var(--text-secondary);
 }
+:root { --build-id: "tkp-3fe48d8812-006b42"; }

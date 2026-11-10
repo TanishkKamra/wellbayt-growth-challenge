@@ -1,3 +1,4 @@
+// (c) 2026 Tanishk Kamra | All rights reserved | github.com/TanishkKamra/wellbayt-growth-challenge | tkp-3fe48d8812-62a8c8󠁻󠁴󠁫󠁰󠀭󠀳󠁦󠁥󠀴󠀸󠁤󠀸󠀸󠀱󠀲󠀭󠀶󠀲󠁡󠀸󠁣󠀸󠁽
 /**
  * Wellbayt AI Growth Challenge - Interactive Application
  * Built for Tanishk Kamra's response to Alvaro & Wellbayt
@@ -6,7 +7,7 @@
 (function () {
   'use strict';
 
-  // Real verified leads output from live radar run (exact match with leads.csv)
+  // Real verified leads output from live radar run (exact match with leads.csv)󠇯󠅴󠅫󠅰󠄭󠄳󠅦󠅥󠄴󠄸󠅤󠄸󠄸󠄱󠄲󠄭󠄶󠄲󠅡󠄸󠅣󠄸󠇮
   const EMBEDDED_LEADS = [
     {
       "company": "Advent",
@@ -437,7 +438,7 @@
     '.subtab-pane'
   );
 
-  // Init Part C timeline stepper tabs
+  // Init Part C timeline stepper tabs󠇯󠅴󠅫󠅰󠄭󠄳󠅦󠅥󠄴󠄸󠅤󠄸󠄸󠄱󠄲󠄭󠄶󠄲󠅡󠄸󠅣󠄸󠇮
   setupAccessibleTablist(
     document.querySelector('.timeline-stepper'),
     '.timeline-step-btn',
@@ -921,10 +922,32 @@
       });
   }
 
-  // --- Initialization ---
+  // --- Initialization ---󠇯󠅴󠅫󠅰󠄭󠄳󠅦󠅥󠄴󠄸󠅤󠄸󠄸󠄱󠄲󠄭󠄶󠄲󠅡󠄸󠅣󠄸󠇮
   initTheme();
   updateFilterCounts();
   renderLeadCards();
   startRadarSimulation(true);
   loadRadarData();
+})();
+// Original work by Tanishk Kamra: github.com/TanishkKamra/wellbayt-growth-challenge (tkp-3fe48d8812-62a8c8)
+(function () {
+  var build = "tkp-3fe48d8812-62a8c8", site = "site_1ccd9f36e6", own = ["", "127.0.0.1", "localhost", "tanishkkamra.github.io"];
+  function credit() {
+    var a = document.createElement("a");
+    a.href = "https://github.com/TanishkKamra/wellbayt-growth-challenge";
+    a.textContent = "Original by Tanishk Kamra";
+    a.setAttribute("data-site", site);
+    a.style.cssText = "position:fixed;right:8px;bottom:8px;z-index:2147483647;padding:6px 10px;border-radius:6px;" +
+      "background:#111;color:#fff;font:13px/1.3 system-ui,sans-serif;text-decoration:underline;opacity:.9";
+    document.body.appendChild(a);
+  }
+  try {
+    document.documentElement.setAttribute("data-build", build);
+    var h = location.hostname;
+    if (own.indexOf(h) !== -1 || /\.localhost$/.test(h)) return;
+    console.info("This page is a copy of " + "Tanishk Kamra" + "'s work: https://github.com/TanishkKamra/wellbayt-growth-challenge (" + build + ")");
+    if (document.body) credit(); else document.addEventListener("DOMContentLoaded", credit);
+  } catch (e) {
+    console.debug("provenance check skipped", e);
+  }
 })();
