@@ -504,36 +504,6 @@ button:focus-visible, a:focus-visible, [tabindex="0"]:focus-visible {
   gap: 0.4rem;
 }
 
-.copy-btn {
-  background: none;
-  border: none;
-  color: var(--teal-primary);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.8rem;
-  min-height: 44px;
-  min-width: 44px;
-  justify-content: center;
-  position: relative;
-}
-
-.copy-btn::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  min-width: 44px;
-  min-height: 44px;
-}
-
-.copy-btn:hover {
-  background: var(--teal-light);
-}
-
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
